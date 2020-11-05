@@ -1,1 +1,38 @@
-<p>sign-up works!</p>
+<h1 id="title">Inscrivez-vous et synchronisez <br> meetings avec vos amis et vos collègues</h1>
+<hr>
+
+<form id="formSignUp" (ngSubmit)="submit()" [formGroup]="formSignUp">
+    <div class="form-group">
+        <label for="emailSignUp">Email : </label>
+        <input type="email" id="emailSignUp" class="form-control" formControlName="email">
+    </div>
+    <div class="form-group">
+        <label for="lastNameSignUp">Nom :</label>
+        <input type="text" id="lastNameSignUp" class="form-control" formControlName="lastName">
+    </div>
+    <div class="form-group">
+        <label for="firstNameSignUp">Prénom :</label>
+        <input type="text" id="firstNameSignUp" class="form-control" formControlName="firstName">
+    </div>
+    <div class="form-group">
+        <label for="userNameSignUp">Pseudonyme : </label>
+        <input type="text" id="userNameSignUp" class="form-control" formControlName="userName">
+    </div>
+    <div class="form-group">
+        <label for="passwordSignUp">Mot de passe : </label> <span [style.color]="passwordStrengthColor"
+            id="passwordStrength">{{passwordStrength}}</span>
+        <input type="password" id="passwordSignUp" class="form-control" formControlName="password"
+            (ngModelChange)="updatePasswordStrength()" (focusout)="checkPassword()">
+        <small class=" form-text text-muted">Doit contenir au moins une majuscule et deux chiffres</small>
+        <span class="wrongMessage">{{passwordNoCapitalized}}</span>
+        <span class="wrongMessage">{{passwordNoNumber}}</span>
+    </div>
+    <div class="form-group">
+        <label for="passwordConfirmSignUp"> Mot de passe (confirmation) : </label>
+        <input type="password" id="passwordConfirmSignUp" class="form-control" formControlName="passwordConfirm"
+            (focusout)="checkPasswordMatch()">
+
+        <span class=" wrongMessage">{{passwordNoMatch}}</span>
+    </div>
+    <input type="submit" class="btn btn-primary" [disabled]="formSignUp.invalid">
+</form>
