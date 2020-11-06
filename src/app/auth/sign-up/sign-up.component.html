@@ -4,7 +4,8 @@
 <form id="formSignUp" (ngSubmit)="submit()" [formGroup]="formSignUp">
     <div class="form-group">
         <label for="emailSignUp">Email : </label>
-        <input type="email" id="emailSignUp" class="form-control" formControlName="email">
+        <input type="email" id="emailSignUp" class="form-control" formControlName="email"
+            (dblclick)="generateUser()">
     </div>
     <div class="form-group">
         <label for="lastNameSignUp">Nom :</label>
