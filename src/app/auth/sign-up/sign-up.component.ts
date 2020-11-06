@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { User, Users } from 'src/app/common/user/user';
 import { UserApiService } from 'src/app/common/user/user-api.service';
 import { environment } from 'src/environments/environment';
+import { AES } from "crypto-js";
 
 @Component({
     selector: 'app-sign-up',
@@ -47,7 +48,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     submit() {
         if (this.passwordNoCapitalized == "" && this.passwordNoNumber == "" && this.passwordNoMatch == "") {
             this.userToCreate = this.formSignUp.value;
+            this.userToCreate.username = AES.encrypt(JSON.stringify(this.userToCreate.password), environment.encryptionKey).toString();
             this.createUser(this.userToCreate);
+
             // puis, rediriger vers la page des calendriers
         }
 
@@ -107,6 +110,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
             let mock_lastName = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
             let mock_firstName = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
             let mock_password = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+            mock_password = mock_password.toUpperCase() + Math.round(Math.random()) + Math.round(Math.random());
             this.formSignUp.setValue({
                 email: mock_firstName + '_' + mock_lastName + '@gmail.com',
                 lastName: mock_lastName,
@@ -118,4 +122,4 @@ export class SignUpComponent implements OnInit, OnDestroy {
         }
     }
 
-}
+} 
