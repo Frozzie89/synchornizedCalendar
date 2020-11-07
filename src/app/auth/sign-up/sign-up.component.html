@@ -4,17 +4,17 @@
 <form id="formSignUp" (ngSubmit)="submit()" [formGroup]="formSignUp">
     <div class="form-group">
         <label for="emailSignUp">Email : </label>
-        <input type="email" id="emailSignUp" class="form-control" formControlName="email" (dblclick)="generateUser()"
-            (focusout)="checkIfUserExists()">
+        <input type="email" id="emailSignUp" tabindex="1" class="form-control" formControlName="email"
+            (dblclick)="generateUser()" (focusout)="checkIfUserExists()">
         <span class="wrongMessage">{{userAlreadyExist}}</span>
     </div>
-    <div class="form-group">
+    <div class="form-group shorter">
         <label for="lastNameSignUp">Nom :</label>
-        <input type="text" id="lastNameSignUp" class="form-control" formControlName="lastName">
+        <input type="text" id="lastNameSignUp" tabindex="3" class="form-control" formControlName="lastName">
     </div>
-    <div class="form-group">
+    <div class="form-group shorter">
         <label for="firstNameSignUp">Prénom :</label>
-        <input type="text" id="firstNameSignUp" class="form-control" formControlName="firstName">
+        <input type="text" id="firstNameSignUp" tabindex="2" class="form-control" formControlName="firstName">
     </div>
     <div class="form-group">
         <label for="userNameSignUp">Pseudonyme : </label>
@@ -36,5 +36,5 @@
 
         <span class=" wrongMessage">{{passwordNoMatch}}</span>
     </div>
-    <input type="submit" class="btn btn-primary" [disabled]="formSignUp.invalid">
+    <input type="submit" value="S'inscrire" class="btn btn-primary" [disabled]="formSignUp.invalid">
 </form>

@@ -4,8 +4,7 @@
 
 export const environment = {
     production: false,
-    serverAddress: 'https://localhost:5501/',
-    encryptionKey: 'e4da3b7fbbce2345d7772b0674a318d5'
+    serverAddress: 'https://localhost:5501/'
 };
 
 /*

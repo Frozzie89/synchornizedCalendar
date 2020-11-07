@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { User, Users } from 'src/app/common/user/user';
 import { UserApiService } from 'src/app/common/user/user-api.service';
 import { environment } from 'src/environments/environment';
-import { AES } from "crypto-js";
+import { SHA256 } from "crypto-js";
 
 @Component({
     selector: 'app-sign-up',
@@ -50,7 +50,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     submit() {
         if (this.passwordNoCapitalized == "" && this.passwordNoNumber == "" && this.passwordNoMatch == "" && this.userAlreadyExist == "") {
             this.userToCreate = this.formSignUp.value;
-            this.userToCreate.username = AES.encrypt(JSON.stringify(this.userToCreate.password), environment.encryptionKey).toString();
+            this.userToCreate.password = SHA256(JSON.stringify(this.userToCreate.password)).toString().substr(0, 50);
             this.createUser(this.userToCreate);
 
             // puis, rediriger vers la page des calendriers
