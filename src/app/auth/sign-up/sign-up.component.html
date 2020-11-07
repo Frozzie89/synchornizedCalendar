@@ -4,8 +4,9 @@
 <form id="formSignUp" (ngSubmit)="submit()" [formGroup]="formSignUp">
     <div class="form-group">
         <label for="emailSignUp">Email : </label>
-        <input type="email" id="emailSignUp" class="form-control" formControlName="email"
-            (dblclick)="generateUser()">
+        <input type="email" id="emailSignUp" class="form-control" formControlName="email" (dblclick)="generateUser()"
+            (focusout)="checkIfUserExists()">
+        <span class="wrongMessage">{{userAlreadyExist}}</span>
     </div>
     <div class="form-group">
         <label for="lastNameSignUp">Nom :</label>

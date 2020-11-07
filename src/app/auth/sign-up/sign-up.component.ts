@@ -19,6 +19,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     passwordNoNumber: string = "";
     passwordNoMatch: string = "";
 
+    userAlreadyExist: string = "";
+
 
     formSignUp: FormGroup = this.fb.group({
         // note : les regex de morts de veulent pas fonctionner putain jpp
@@ -46,7 +48,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
 
     submit() {
-        if (this.passwordNoCapitalized == "" && this.passwordNoNumber == "" && this.passwordNoMatch == "") {
+        if (this.passwordNoCapitalized == "" && this.passwordNoNumber == "" && this.passwordNoMatch == "" && this.userAlreadyExist == "") {
             this.userToCreate = this.formSignUp.value;
             this.userToCreate.username = AES.encrypt(JSON.stringify(this.userToCreate.password), environment.encryptionKey).toString();
             this.createUser(this.userToCreate);
@@ -103,6 +105,26 @@ export class SignUpComponent implements OnInit, OnDestroy {
             this.userApi.create(user)
                 .subscribe(user => this.users.push(user))
         );
+    }
+
+    getUser(email: string) {
+        this.subscriptions.push(
+            this.userApi.getByEmail(email)
+                .subscribe(user => this.users.push(user))
+        )
+    }
+
+    checkIfUserExists() {
+        const email: string = this.formSignUp.controls['email'].value;
+        this.userAlreadyExist = "";
+        this.getUser(email);
+
+        this.users.forEach(element => {
+            if (element.email == email)
+                this.userAlreadyExist = "Cette addresse Email est déjà prise, veuillez en choisir une autre";
+        });
+
+
     }
 
     generateUser() {
