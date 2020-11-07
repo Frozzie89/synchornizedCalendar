@@ -8,6 +8,7 @@
 # Todo
 
 ## Tâches non-attribuées
+- navbar
 
 ## Tâches en cours
 
@@ -19,3 +20,8 @@
 
 ### Laruelle Loïc
 ---
+
+### Terminé
+
+- Page d'authentification (Lucien Joly)
+- Page d'inscription (Lucien Joly)

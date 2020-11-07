@@ -110,7 +110,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     getUser(email: string) {
         this.subscriptions.push(
             this.userApi.getByEmail(email)
-                .subscribe(user => this.users.push(user))
+                .subscribe(
+                    user => this.users.push(user),
+                    () => null
+                )
         )
     }
 
