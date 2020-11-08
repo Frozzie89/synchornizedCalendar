@@ -1,0 +1,36 @@
+:root {
+  --bggradient: linear-gradient(to bottom,#45B39D ,#16A085);
+  --goldman:'Goldman', cursive;
+}
+.homepage{
+  background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(41,121,9,1) 33%, rgba(66,226,60,1) 86%);
+}
+#title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Goldman', cursive;
+}
+.cover{
+  width:100%;
+  height:55vmin;
+  background: url("../../assets/calendrierprojet.jpg");
+  background-position: -24rem -19rem;
+  background-size: 150%;
+  position:relative;
+}
+.cover .content{
+  background:rgba(0,0,0,0.7);
+  height : 100%;
+  width : 100%;
+  padding-top: 19vmin;
+}
+.cover .content>h1{
+  font-family: 'Goldman', cursive;
+  font-size:6vmin;
+  color:whitesmoke;
+}
+.cover .content>p{
+  font-family: 'Goldman', cursive;
+  font-size:3vmin;
+  color:whitesmoke;
+}
