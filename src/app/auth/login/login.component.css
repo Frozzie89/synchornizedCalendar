@@ -1,7 +1,20 @@
+.login {
+  background: linear-gradient(to bottom,#A3BCB6 ,#DADED4);
+  min-height: 100vh;
+}
+
+.icon{
+}
+img {
+  width: 5rem;
+  height: auto;
+}
+
 #formLogin{
     margin: auto;
     width: 50%;
     padding: 10px;
+  min-height: 50vh;
 }
 
 #formLogin>input[type=submit]{
@@ -11,10 +24,31 @@
 #title {
     text-align: center;
     margin-bottom: 20px;
+    font-family: 'Dancing Script', cursive;
 }
 
 .wrongMessage{
     display: block;
     color: red;
     float: right;
+}
+.form-group{
+  padding: 0.1em 0em;
+  margin-top: 2vmin;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14pt;
+}
+.card{
+  width: 600px;
+  margin: 0 auto;
+  float: none;
+  margin-bottom: 10px;
+}
+.btn{
+  background: #39603D;
+  border-radius: 45px;
+  color: white;
+}
+a{
+  color: #39603D;
 }
