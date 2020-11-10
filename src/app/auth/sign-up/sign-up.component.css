@@ -19,10 +19,55 @@
 
 #title {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    font-family: 'Dancing Script', cursive;
 }
 
 .wrongMessage{
     display: block;
     color: red;
+    font-size: 10pt;
+}
+.signup{
+   background: linear-gradient(to bottom,#A3BCB6 ,#DADED4);
+   min-height: 100vh;
+ }
+
+.card{
+  width: 600px;
+  /*margin: 0 auto;*/
+  float: none;
+  margin-bottom: 10px;
+  margin-top: 1vmin;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #A3BCB6;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(57, 96, 61, 0.25);
+}
+
+.form-group{
+  padding: 0.1em 0em;
+  margin-top: 1vmin;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11pt;
+}
+
+.btn{
+  background: #39603D;
+  border-radius: 45px;
+  color: white;
+}
+.cover{
+  width:100%;
+  height:90vmin;
+  background: url("../../../assets/signupPic.jpg");
+  background-size: 150%;
+  position:relative;
+  margin-top: 1vmin;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16pt;
 }

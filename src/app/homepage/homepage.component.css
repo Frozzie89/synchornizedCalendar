@@ -35,8 +35,8 @@
   color:whitesmoke;
 }
 p{
-  font-family: 'Dancing Script', cursive;
-  font-size:3vmin;
+  font-family: 'Montserrat', sans-serif;
+  font-size:2vmin;
   color : #3C403D;
 }
 button{
@@ -44,11 +44,11 @@ button{
   font-size: 4vmin;
 }
 h6{
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Montserrat', sans-serif;
   font-size:3vmin;
   color : #3C403D;
 }
-h7{
+h4{
   font-family: 'Dancing Script', cursive;
   font-size:9vmin;
   color : #3C403D;
