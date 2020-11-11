@@ -20,7 +20,9 @@
 #title {
     text-align: center;
     margin-bottom: 16px;
-    font-family: 'Dancing Script', cursive;
+    margin-top: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18pt;
 }
 
 .wrongMessage{
