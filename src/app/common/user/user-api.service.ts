@@ -30,6 +30,10 @@ export class UserApiService implements UserRepository {
         return this.http.get<User>(UserApiService.URL + '/' + email);
     }
 
+    getAuthentification(email: string, password: string): Observable<User> {
+        return this.http.get<User>(UserApiService.URL + '/' + email + '/' + password);
+    }
+
     deleteById(id: number): Observable<any> {
         return this.http.delete<User>(UserApiService.URL + '/' + id);
     }

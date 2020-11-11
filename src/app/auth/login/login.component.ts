@@ -32,13 +32,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     }
 
-    getUser(email: string, callback: any) {
+    getAuthenticication(email: string, password: string) {
         this.subscriptions.push(
-            this.userApi.getByEmail(email)
+            this.userApi.getAuthentification(email, password)
                 .subscribe(
                     user => {
-                        this.checkUser = user;
-                        callback()
+                        this.checkUser = user
+                        // rediriger vers la page des calendriers
                     },
                     () => this.userNotFound = "L'Adresse Email ou le mot de passe est incorrect"
                 )
@@ -50,17 +50,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         let password = SHA256(JSON.stringify(this.formLogin.controls['password'].value)).toString().substr(0, 50);
 
         this.userNotFound = "";
-        this.getUser(email, () => {
-            console.log(this.checkUser);
+        this.getAuthenticication(email, password);
 
-
-            if (email == this.checkUser.email && password == this.checkUser.password) {
-                // trouvé, rediriger vers la page des calendriers
-                return;
-            }
-
-            this.userNotFound = "L'Adresse Email ou le mot de passe est incorrect";
-        });
     }
 
 }
