@@ -30,7 +30,7 @@ export class UserApiService implements UserRepository {
         return this.http.get<User>(UserApiService.URL + '/' + email);
     }
 
-    getAuthentification(email: string, password: string): Observable<User> {
+    getAuthentication(email: string, password: string): Observable<User> {
         return this.http.get<User>(UserApiService.URL + '/' + email + '/' + password);
     }
 

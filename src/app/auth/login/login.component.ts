@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     getAuthenticication(email: string, password: string) {
         this.subscriptions.push(
-            this.userApi.getAuthentification(email, password)
+            this.userApi.getAuthentication(email, password)
                 .subscribe(
                     user => {
                         this.checkUser = user
