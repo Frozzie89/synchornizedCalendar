@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                 .subscribe(
                     response => {
                         const token = (<any>response).user.token;
-                        this.userSessionService.setUserData(token);
                         localStorage.setItem('jwt', token);
+                        this.userSessionService.setUserToken();
 
                         // rediriger vers la page des calendriers
                     },

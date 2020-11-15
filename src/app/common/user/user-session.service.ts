@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { User } from './user';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { tokenGetter } from 'src/app/app.module';
 
 @Injectable({
     providedIn: 'root'
@@ -11,10 +12,16 @@ export class UserSessionService {
 
     constructor() { }
 
-    setUserData(token: string) {
+    setUserToken() {
         try {
+            const token = tokenGetter();
             const helper = new JwtHelperService();
             const decodedToken = helper.decodeToken(token);
+
+            if (token == null) {
+                this.user = null;
+                return;
+            }
 
             if (helper.isTokenExpired(token))
                 throw new Error("token expired");
