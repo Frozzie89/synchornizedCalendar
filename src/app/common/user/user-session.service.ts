@@ -6,11 +6,17 @@ import { tokenGetter } from 'src/app/app.module';
 @Injectable({
     providedIn: 'root'
 })
-export class UserSessionService {
+export class UserSessionService implements OnInit {
 
     private _user: User;
+    private _isSet: boolean = false;
 
     constructor() { }
+
+    ngOnInit(): void {
+        if (!this.isSet)
+            this.setUserToken();
+    }
 
     setUserToken() {
         try {
@@ -34,6 +40,8 @@ export class UserSessionService {
                 lastname: decodedToken.LastName,
                 username: decodedToken.UserName
             };
+
+            this.isSet = true;
         }
         catch (Error) {
             console.error(Error);
@@ -52,5 +60,12 @@ export class UserSessionService {
 
     set user(user: User) {
         this._user = user;
+    }
+    get isSet() {
+        return this._isSet;
+    }
+
+    set isSet(isSet: boolean) {
+        this._isSet = isSet;
     }
 }
