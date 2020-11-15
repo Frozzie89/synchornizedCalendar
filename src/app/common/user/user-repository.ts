@@ -6,6 +6,7 @@ export interface UserRepository {
     create(user: User): Observable<any>;
     getById(id: number): Observable<User>;
     getByEmail(email: string): Observable<User>;
+    getAuthentication(email: string, password: string): Observable<User>;
     deleteById(id: number): Observable<any>;
     deleteByEmail(email: string): Observable<any>;
     updateById(id: number, user: User): Observable<any>;

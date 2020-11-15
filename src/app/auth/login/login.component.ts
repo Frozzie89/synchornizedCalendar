@@ -4,6 +4,7 @@ import { SHA256 } from 'crypto-js';
 import { Subscription } from 'rxjs';
 import { User, Users } from 'src/app/common/user/user';
 import { UserApiService } from 'src/app/common/user/user-api.service';
+import { UserSessionService } from 'src/app/common/user/user-session.service';
 
 @Component({
     selector: 'app-login',
@@ -13,8 +14,6 @@ import { UserApiService } from 'src/app/common/user/user-api.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
     userNotFound: string = "";
-
-    checkUser: User;
     private subscriptions: Subscription[] = [];
 
     formLogin: FormGroup = this.fb.group({
@@ -22,7 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         password: ['', Validators.required]
     });
 
-    constructor(private fb: FormBuilder, private userApi: UserApiService) { }
+    constructor(private fb: FormBuilder, private userApi: UserApiService, private userSessionService: UserSessionService) { }
 
     ngOnInit(): void { }
 
@@ -36,8 +35,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.userApi.getAuthentication(email, password)
                 .subscribe(
-                    user => {
-                        this.checkUser = user
+                    response => {
+                        const token = (<any>response).user.token;
+                        this.userSessionService.setUserData(token);
+                        localStorage.setItem('jwt', token);
+
                         // rediriger vers la page des calendriers
                     },
                     () => this.userNotFound = "L'Adresse Email ou le mot de passe est incorrect"

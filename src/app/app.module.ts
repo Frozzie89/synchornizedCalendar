@@ -11,6 +11,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { HomepageComponent } from './homepage/homepage.component';
 import { WelcomepageComponent } from './application/welcomepage/welcomepage.component';
 import { NavbarCalendarComponent } from './application/navbar-calendar/navbar-calendar.component';
+import { JwtModule } from "@auth0/angular-jwt";
+
+export function tokenGetter() {
+    return localStorage.getItem("jwt");
+}
 
 
 @NgModule({
@@ -28,7 +33,14 @@ import { NavbarCalendarComponent } from './application/navbar-calendar/navbar-ca
         AppRoutingModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                allowedDomains: ["localhost:5501"],
+                disallowedRoutes: []
+            }
+        })
     ],
     providers: [],
     bootstrap: [AppComponent]
