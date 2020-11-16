@@ -8,13 +8,12 @@ import { tokenGetter } from 'src/app/app.module';
 })
 export class UserSessionService implements OnInit {
 
-    private _user: User;
-    private _isSet: boolean = false;
+    private _user: User = null;
 
     constructor() { }
 
     ngOnInit(): void {
-        if (!this.isSet)
+        if (this.user == null)
             this.setUserToken();
     }
 
@@ -40,8 +39,6 @@ export class UserSessionService implements OnInit {
                 lastname: decodedToken.LastName,
                 username: decodedToken.UserName
             };
-
-            this.isSet = true;
         }
         catch (Error) {
             console.error(Error);
@@ -60,12 +57,5 @@ export class UserSessionService implements OnInit {
 
     set user(user: User) {
         this._user = user;
-    }
-    get isSet() {
-        return this._isSet;
-    }
-
-    set isSet(isSet: boolean) {
-        this._isSet = isSet;
     }
 }
