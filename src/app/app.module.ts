@@ -12,6 +12,18 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { WelcomepageComponent } from './application/welcomepage/welcomepage.component';
 import { NavbarCalendarComponent } from './application/navbar-calendar/navbar-calendar.component';
 import { JwtModule } from "@auth0/angular-jwt";
+import { GroupComponent } from './group/group.component';
+import { CalendarComponent } from './group/calendar/calendar.component';
+import { ChatComponent } from './group/chat/chat.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { CalendarCommonModule, CalendarDayModule, CalendarMonthModule, CalendarWeekModule } from 'angular-calendar';
+import 'flatpickr/dist/flatpickr.css';
+
 
 export function tokenGetter() {
     return localStorage.getItem("jwt");
@@ -19,6 +31,7 @@ export function tokenGetter() {
 
 
 @NgModule({
+    exports: [CalendarComponent],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -27,6 +40,9 @@ export function tokenGetter() {
         HomepageComponent,
         WelcomepageComponent,
         NavbarCalendarComponent,
+        GroupComponent,
+        CalendarComponent,
+        ChatComponent,
     ],
     imports: [
         BrowserModule,
@@ -34,13 +50,25 @@ export function tokenGetter() {
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
+        BrowserAnimationsModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
         JwtModule.forRoot({
             config: {
                 tokenGetter: tokenGetter,
                 allowedDomains: ["localhost:5501"],
                 disallowedRoutes: []
             }
-        })
+        }),
+        CalendarWeekModule,
+        CalendarDayModule,
+        CalendarMonthModule,
+        CalendarCommonModule,
+        NgbModalModule,
+        CommonModule,
+        FlatpickrModule.forRoot(),
     ],
     providers: [],
     bootstrap: [AppComponent]

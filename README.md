@@ -8,7 +8,6 @@
 # Todo
 
 ## Tâches non-attribuées
-- navbar
 
 ## Tâches en cours
 
@@ -16,12 +15,15 @@
 ---
 
 ### Joly Lucien
+- base du calendrier
 ---
 
 ### Laruelle Loïc
+- navbar
 ---
 
 ### Terminé
 
+- JWT
 - Page d'authentification (Lucien Joly)
 - Page d'inscription (Lucien Joly)
