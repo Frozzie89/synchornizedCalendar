@@ -4,6 +4,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { CalendarComponent } from './group/calendar/calendar.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import {ChatComponent} from "./group/chat/chat.component";
 
 const routes: Routes = [
     {
@@ -20,7 +21,11 @@ const routes: Routes = [
     },
     {
         path: "calendar", component: CalendarComponent
+    },
+    {
+      path: "chat", component: ChatComponent
     }
+
 ];
 
 @NgModule({
