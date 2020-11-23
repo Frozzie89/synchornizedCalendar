@@ -6,6 +6,7 @@ import { CalendarComponent } from './group/calendar/calendar.component';
 import { GroupComponent } from './group/group.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { HomepageComponent } from './homepage/homepage.component';
+import { ChatComponent } from "./group/chat/chat.component";
 
 const routes: Routes = [
     {
@@ -22,7 +23,14 @@ const routes: Routes = [
     },
     {
         path: "group", component: GroupComponent, canActivate: [AuthGuardService]
+    },
+    {
+        path: "calendar", component: CalendarComponent, canActivate: [AuthGuardService]
+    },
+    {
+        path: "chat", component: ChatComponent, canActivate: [AuthGuardService]
     }
+
 ];
 
 @NgModule({
