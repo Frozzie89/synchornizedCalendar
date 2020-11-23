@@ -24,12 +24,14 @@ const routes: Routes = [
     {
         path: "group", component: GroupComponent, canActivate: [AuthGuardService]
     },
-    {
-        path: "calendar", component: CalendarComponent, canActivate: [AuthGuardService]
-    },
-    {
-        path: "chat", component: ChatComponent, canActivate: [AuthGuardService]
-    }
+
+    // on peut les accéder via "group"
+    // {
+    //     path: "calendar", component: CalendarComponent, canActivate: [AuthGuardService]
+    // },
+    // {
+    //     path: "chat", component: ChatComponent, canActivate: [AuthGuardService]
+    // }
 
 ];
 
