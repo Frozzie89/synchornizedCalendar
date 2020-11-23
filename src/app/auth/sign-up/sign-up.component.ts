@@ -5,6 +5,8 @@ import { User, Users } from 'src/app/common/user/user';
 import { UserApiService } from 'src/app/common/user/user-api.service';
 import { environment } from 'src/environments/environment';
 import { SHA256 } from "crypto-js";
+import { Router } from '@angular/router';
+import { UserSessionService } from 'src/app/common/user/user-session.service';
 
 @Component({
     selector: 'app-sign-up',
@@ -37,7 +39,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     userToCreate: User;
 
 
-    constructor(private fb: FormBuilder, private userApi: UserApiService) { }
+    constructor(private fb: FormBuilder, private userApi: UserApiService, private userSessionService: UserSessionService, private router: Router) { }
 
     ngOnInit(): void { }
 
@@ -53,7 +55,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
             this.userToCreate.password = SHA256(JSON.stringify(this.userToCreate.password)).toString().substr(0, 50);
             this.createUser(this.userToCreate);
 
-            // puis, rediriger vers la page des calendriers
+            this.getAuthentication(this.userToCreate.email, this.userToCreate.password);
+
+            this.router.navigate(['/group']);
+
         }
 
     }
@@ -113,6 +118,19 @@ export class SignUpComponent implements OnInit, OnDestroy {
                 .subscribe(
                     user => this.users.push(user),
                     () => null
+                )
+        )
+    }
+
+    getAuthentication(email: string, password: string) {
+        this.subscriptions.push(
+            this.userApi.getAuthentication(email, password)
+                .subscribe(
+                    response => {
+                        const token = (<any>response).user.token;
+                        localStorage.setItem('jwt', token);
+                        this.userSessionService.setUserToken();
+                    }
                 )
         )
     }

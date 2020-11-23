@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SHA256 } from 'crypto-js';
 import { Subscription } from 'rxjs';
 import { User, Users } from 'src/app/common/user/user';
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         password: ['', Validators.required]
     });
 
-    constructor(private fb: FormBuilder, private userApi: UserApiService, private userSessionService: UserSessionService) { }
+    constructor(private fb: FormBuilder, private userApi: UserApiService, private userSessionService: UserSessionService, private router: Router) { }
 
     ngOnInit(): void { }
 
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     }
 
-    getAuthenticication(email: string, password: string) {
+    getAuthentication(email: string, password: string) {
         this.subscriptions.push(
             this.userApi.getAuthentication(email, password)
                 .subscribe(
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         localStorage.setItem('jwt', token);
                         this.userSessionService.setUserToken();
 
-                        // rediriger vers la page des calendriers
+                        this.router.navigate(["/group"]);
                     },
                     () => this.userNotFound = "L'Adresse Email ou le mot de passe est incorrect"
                 )
@@ -52,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         let password = SHA256(JSON.stringify(this.formLogin.controls['password'].value)).toString().substr(0, 50);
 
         this.userNotFound = "";
-        this.getAuthenticication(email, password);
+        this.getAuthentication(email, password);
 
     }
 

@@ -1,0 +1,26 @@
+li{
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+li:nth-child(2)
+{
+    padding-left: 30px;
+}
+
+.navbar {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+select{
+    margin-left: 15px;
+    width: 500px;
+}
+
+ng-template{
+    z-index: 2;
+}

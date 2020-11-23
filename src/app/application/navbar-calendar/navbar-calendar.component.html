@@ -1,13 +1,66 @@
-<nav class="navbar bg-light">
-  <span class="navbar-brand">Calendar Trop cool</span>
-  <div class="container">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Calendrier</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Messagerie</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active" (click)="openModal(Recevedinvitations)">
+                    Invitations
+                </li>
+                <li class="nav-item active" (click)="openModal(inviteSomeOne)">
+                    Inviter des amis
+                </li>
+                <li class="nav-item active">
+                    Liste des plannings :
+                    <select *ngFor="let planning of planningsOfMember">
+                        <option value="{{planning.idPlanning}}">{{planning.labelPlanning}}</option>
+                    </select>
+                </li>
+            </ul>
+            <button type="button" class="btn btn-dark" (click)="logOut()">Se déconnecter</button>
+        </div>
+    </nav>
+</header>
+
+
+
+<!-- Modal des invitations reçues -->
+<ng-template #Recevedinvitations let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Invitations reçues</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="planningsInvites.length > 0">
+            <ul *ngFor="let planning of planningsInvites">
+                <li>
+                    {{planning.labelPlanning}}
+                    <button class="btn btn-primary" id="{{planning.idPlanning}}"
+                        style="float: right;">Rejoindre</button>
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="planningsInvites.length == 0">
+            Vous n'êtes invité à aucun plannings
+        </div>
+    </div>
+</ng-template>
+
+
+<!-- Modal pour inviter des gens -->
+<ng-template #inviteSomeOne let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Invitez un ami dans l'un de vos plannings</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+    </div>
+</ng-template>

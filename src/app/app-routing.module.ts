@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { CalendarComponent } from './group/calendar/calendar.component';
+import { GroupComponent } from './group/group.component';
+import { AuthGuardService } from './guards/auth-guard.service';
 import { HomepageComponent } from './homepage/homepage.component';
 
 const routes: Routes = [
@@ -19,7 +21,7 @@ const routes: Routes = [
         path: "login", component: LoginComponent
     },
     {
-        path: "calendar", component: CalendarComponent
+        path: "group", component: GroupComponent, canActivate: [AuthGuardService]
     }
 ];
 
