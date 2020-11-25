@@ -62,16 +62,24 @@
     </div>
     <div class="modal-body">
         <form (ngSubmit)="InviteUser()" [formGroup]="formInviteUser">
+            <span class="errorMessage" *ngIf="userToInviteNotFoundError">L'utilisateur n'a pas été trouvé</span>
+            <span class="errorMessage" *ngIf="userToInviteAlreadyInPlanning">L'utilisateur est déjà présent dans ce
+                planning</span>
+            <span class="validMessage" *ngIf="userToInviteIsInvited">L'utilisateur à bien été invité !</span>
             <div class="form-group">
                 <label for="userEmailInvite">Email de votre ami</label>
-                <input type="text" class="form-control" id="userEmailInvite">
+                <input type="email" class="form-control" id="userEmailInvite" formControlName="userEmailInvite"
+                    (ngModelChange)="resetValidMessage()">
             </div>
             <div class="form-group">
-                <label for="planningInvite">Planning</label>
-                <select class="form-control" id="planningInvite">
-                    <option value="1">PlanningTest</option>
+                <label for="planningInvite">Planning <small class="form-text text-muted">nécessite d'être
+                        modérateur</small> </label>
+                <select class="form-control" id="planningInvite" formControlName="idPlanningInvite"
+                    *ngFor="let planning of planningsOfGrantedMember">
+                    <option [value]="planning.id">{{planning.labelPlanning}}</option>
                 </select>
             </div>
+            <button type="submit" id="submitInviteUser" class="btn btn-primary">Inviter</button>
         </form>
     </div>
 </ng-template>

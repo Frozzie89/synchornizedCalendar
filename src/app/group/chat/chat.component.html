@@ -10,7 +10,8 @@
             <div class="col-xs-6">
                 <form id="formMessage" (ngSubmit)="sendMessage()" [formGroup]="formMessage">
                     <div class="input-group mb-3" id="sendMessageGroup">
-                        <input type="text" class="form-control" id="bodyMessageInput" formControlName="body">
+                        <input type="text" class="form-control" id="bodyMessageInput"
+                            placeholder="Ecrivez un message..." formControlName="body">
                         <div class="input-group-append">
                             <input type="submit" value="Send" class="btn btn-outline-secondary"
                                 [disabled]="formMessage.invalid">

@@ -31,3 +31,17 @@ ng-template{
     padding: 10px;
     min-height: 50vh;
 }
+
+#submitInviteUser{
+    width: 100%;
+}
+
+.errorMessage{
+    color: red;
+    display: block;
+}
+
+.validMessage{
+    color: green;
+    display: block;
+}

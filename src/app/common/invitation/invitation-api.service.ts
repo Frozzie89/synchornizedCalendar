@@ -13,7 +13,6 @@ export class InvitationApiService implements InvitationRepository {
     private static URL: string = environment.serverAddress + 'api/invitations';
 
     constructor(private http: HttpClient) { }
-
     query(): Observable<Invitations> {
         return this.http.get<Invitations>(InvitationApiService.URL);
     }

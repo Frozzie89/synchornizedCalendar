@@ -23,10 +23,13 @@ export class MemberApiService implements MemberRepository {
     queryFromUser(idUser: number): Observable<Members> {
         return this.http.get<Members>(MemberApiService.URL + '/' + idUser + '/u');
     }
+    queryFromGrantedUser(idUser: number): Observable<Members> {
+        return this.http.get<Members>(MemberApiService.URL + '/' + idUser + '/gu');
+    }
     create(member: Member): Observable<any> {
         return this.http.post<Member>(MemberApiService.URL, member);
     }
-    getById(idUser: number, idPlanning: number): Observable<Member> {
+    get(idUser: number, idPlanning: number): Observable<Member> {
         return this.http.get<Member>(MemberApiService.URL + '/' + idUser + '/' + idPlanning);
     }
     delete(idUser: number, idPlanning: number): Observable<any> {

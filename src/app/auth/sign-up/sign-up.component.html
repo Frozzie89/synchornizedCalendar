@@ -34,7 +34,7 @@
                                                                         id="passwordStrength">{{passwordStrength}}</span>
               <input type="password" id="passwordSignUp" class="form-control" formControlName="password"
                      (ngModelChange)="updatePasswordStrength()" (focusout)="checkPassword()">
-              <small class=" form-text text-muted">Doit contenir au moins une majuscule et deux chiffres</small>
+              <small class="form-text text-muted">Doit contenir au moins une majuscule et deux chiffres</small>
               <span class="wrongMessage">{{passwordNoCapitalized}}</span>
               <span class="wrongMessage">{{passwordNoNumber}}</span>
             </div>
