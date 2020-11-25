@@ -1,0 +1,17 @@
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    /* border: 2px solid yellow; */
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+    max-width: 25%;
+}   
+
+.wrap{
+    max-height: 200%;
+}

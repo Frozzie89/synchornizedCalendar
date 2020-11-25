@@ -10,17 +10,24 @@ li:nth-child(2)
 }
 
 .navbar {
-    z-index: 1;
+    z-index: 900;
     position: fixed;
     top: 0;
     width: 100%
 }
 
-select{
+ng-template{
+    z-index: 2;
+}
+
+#navSelectPlanning{
     margin-left: 15px;
     width: 500px;
 }
 
-ng-template{
-    z-index: 2;
+#formInviteUser{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    min-height: 50vh;
 }

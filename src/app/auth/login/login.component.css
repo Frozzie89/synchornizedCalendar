@@ -3,8 +3,8 @@
   min-height: 100vh;
 }
 
-.icon{
-}
+/* .icon{
+} */
 img {
   width: 5rem;
   height: auto;
@@ -14,7 +14,7 @@ img {
     margin: auto;
     width: 50%;
     padding: 10px;
-  min-height: 50vh;
+    min-height: 50vh;
 }
 
 #formLogin>input[type=submit]{

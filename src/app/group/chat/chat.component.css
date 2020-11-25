@@ -1,6 +1,6 @@
 .chat-messages-show-container{
   background: #c3c3c3;
-  height: 500px;
+  height: 650px;
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -17,7 +17,7 @@
   display: flex;
   justify-content: center;
 }
-.chat-messages-create-input {
+/* .chat-messages-create-input {
   padding: 12px;
   margin: 10px 10px;
   flex:2;
@@ -27,9 +27,8 @@
   padding: 12px;
   margin: 10px 10px;
   width: 20%;
-}
+} */
 
-.chat-messages{
-  height: 80%;
-  width: 15%;
+#sendMessageGroup{
+    margin-top: 15px;
 }

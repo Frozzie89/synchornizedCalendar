@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { PlanningApiService } from 'src/app/common/planning/planning-api.service';
 import { Plannings } from 'src/app/common/planning/planning';
 import { MemberApiService } from 'src/app/common/member/member-api.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-navbar-calendar',
@@ -18,10 +19,14 @@ import { MemberApiService } from 'src/app/common/member/member-api.service';
 
 export class NavbarCalendarComponent implements OnInit, OnDestroy {
 
+    formInviteUser: FormGroup = this.fb.group({
+        userEmail: ['', Validators.required],
+        idPlanning: ['', Validators.required]
+    });
+
     invitations: Invitations = [];
     planningsInvites: Plannings = [];
     planningsOfMember: Plannings = [];
-    test: number[];
 
     private subscriptions: Subscription[] = [];
 
@@ -32,7 +37,8 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
         private userSessionService: UserSessionService,
         private planningApi: PlanningApiService,
         private invitationApi: InvitationApiService,
-        private memberApi: MemberApiService
+        private memberApi: MemberApiService,
+        private fb: FormBuilder
     ) { }
 
     ngOnInit() {
@@ -93,6 +99,10 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
                 .subscribe(
                     planning => { plannings.push(planning); })
         )
+    }
+
+    InviteUser() {
+
     }
 
     logOut() {

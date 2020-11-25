@@ -1,16 +1,23 @@
 <div class="chat-messages">
-  <!-- Zone d'affichage des message -->
-  <div class="chat-messages-show-container">
-    <ul class="chat-messages-show-list"></ul>
-  </div>
+    <!-- Zone d'affichage des message -->
+    <div class="chat-messages-show-container">
+        <ul class="chat-messages-show-list"></ul>
+    </div>
 
-  <!-- Zone de saisie du message -->
-  <div class="chat-messages-create-container">
-    <form id="formMessage" (ngSubmit)="sendMessage()" [formGroup]="formMessage">
-      <input type="text" formControlName="body">
-      <input type="submit" value="Send" class="btn" [disabled]="formMessage.invalid">
-    </form>
-
-  </div>
-
+    <!-- Zone de saisie du message -->
+    <div class="chat-messages-create-container">
+        <div class="row">
+            <div class="col-xs-6">
+                <form id="formMessage" (ngSubmit)="sendMessage()" [formGroup]="formMessage">
+                    <div class="input-group mb-3" id="sendMessageGroup">
+                        <input type="text" class="form-control" id="bodyMessageInput" formControlName="body">
+                        <div class="input-group-append">
+                            <input type="submit" value="Send" class="btn btn-outline-secondary"
+                                [disabled]="formMessage.invalid">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
