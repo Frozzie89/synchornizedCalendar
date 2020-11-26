@@ -30,7 +30,7 @@ export class MessageApiService implements MessageRepository {
         //message.id = this.userSession.user.id;
         //message.body = "TestWS";
         message.idChat = 1;
-        message.id = 1;
+        message.idPlanning = 1;
         console.log("Api" + message);
         return this.http.post<Message>(MessageApiService.URL, message);
     }

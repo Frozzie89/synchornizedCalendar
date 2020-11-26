@@ -23,6 +23,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { CalendarCommonModule, CalendarDayModule, CalendarMonthModule, CalendarWeekModule } from 'angular-calendar';
 import 'flatpickr/dist/flatpickr.css';
+import { MemberManagementComponent } from './group/member-management/member-management.component';
 
 
 export function tokenGetter() {
@@ -43,6 +44,7 @@ export function tokenGetter() {
         GroupComponent,
         CalendarComponent,
         ChatComponent,
+        MemberManagementComponent,
     ],
     imports: [
         BrowserModule,
