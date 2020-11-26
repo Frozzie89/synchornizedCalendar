@@ -1,5 +1,5 @@
 export interface Invitation {
-    idInvitation?: number,
+    id?: number,
     idPlanning: number,
     idUserRecever: number
 }

@@ -33,7 +33,7 @@ export class UserSessionService implements OnInit {
 
             this.user =
             {
-                idUser: decodedToken.id,
+                id: decodedToken.id,
                 email: decodedToken.Email,
                 firstname: decodedToken.FirstName,
                 lastname: decodedToken.LastName,

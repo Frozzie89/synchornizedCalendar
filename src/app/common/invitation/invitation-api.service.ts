@@ -25,8 +25,8 @@ export class InvitationApiService implements InvitationRepository {
     getById(id: number): Observable<Invitation> {
         return this.http.get<Invitation>(InvitationApiService.URL + '/' + id);
     }
-    getByUserRecever(idUserRecever: number, idPlanning: number): Observable<Invitation> {
-        return this.http.get<Invitation>(InvitationApiService.URL + '/' + idUserRecever + '/' + idPlanning);
+    getByUserRecever(idUserRecever: number, id: number): Observable<Invitation> {
+        return this.http.get<Invitation>(InvitationApiService.URL + '/' + idUserRecever + '/' + id);
     }
     delete(id: number): Observable<any> {
         return this.http.delete<Invitation>(InvitationApiService.URL + '/' + id);

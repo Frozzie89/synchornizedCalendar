@@ -6,24 +6,24 @@ import { Chat } from './chat';
 import { ChatRepository } from './chat-repository';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class ChatApiService implements ChatRepository{
+export class ChatApiService implements ChatRepository {
 
-  private static URL: string = environment.serverAddress + 'api/chats';
+    private static URL: string = environment.serverAddress + 'api/chats';
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-  query(): Observable<Chat>{
-    return this.http.get<Chat>(ChatApiService.URL);
-  }
+    query(): Observable<Chat> {
+        return this.http.get<Chat>(ChatApiService.URL);
+    }
 
-  getById(id: number): Observable<Chat> {
-    return this.http.get<Chat>(ChatApiService.URL + '/' + id);
-  }
+    getById(id: number): Observable<Chat> {
+        return this.http.get<Chat>(ChatApiService.URL + '/' + id);
+    }
 
-  getByIdPlanning(idPlanning: number): Observable<Chat> {
-    return this.http.get<Chat>(ChatApiService.URL + '/' + idPlanning + '/planning');
-  }
+    getByIdPlanning(id: number): Observable<Chat> {
+        return this.http.get<Chat>(ChatApiService.URL + '/' + id + '/planning');
+    }
 
 }

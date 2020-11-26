@@ -1,5 +1,5 @@
 export interface Planning {
-    idPlanning?: number,
+    id?: number,
     labelPlanning: string,
     idSuperUser: number
 }

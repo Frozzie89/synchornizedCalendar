@@ -16,7 +16,7 @@
                 <li class="nav-item active">
                     Liste des plannings :
                     <select id="navSelectPlanning" *ngFor="let planning of planningsOfMember">
-                        <option value="{{planning.idPlanning}}">{{planning.labelPlanning}}</option>
+                        <option value="{{planning.id}}">{{planning.labelPlanning}}</option>
                     </select>
                 </li>
             </ul>
@@ -38,11 +38,11 @@
     <div class="modal-body">
         <div *ngIf="planningsInvites.length > 0">
             <ul *ngFor="let planning of planningsInvites">
-                <li>
+                <ol>
                     {{planning.labelPlanning}}
-                    <button class="btn btn-primary" id="{{planning.idPlanning}}"
-                        style="float: right;">Rejoindre</button>
-                </li>
+                    <button class="btn btn-primary" id="{{planning.id}}" style="float: right;"
+                        (click)="joinGroup(planning)">Rejoindre</button>
+                </ol>
             </ul>
         </div>
         <div *ngIf="planningsInvites.length == 0">
@@ -64,7 +64,7 @@
         <form (ngSubmit)="InviteUser()" [formGroup]="formInviteUser">
             <span class="errorMessage" *ngIf="userToInviteNotFoundError">L'utilisateur n'a pas été trouvé</span>
             <span class="errorMessage" *ngIf="userToInviteAlreadyInPlanning">L'utilisateur est déjà présent dans ce
-                planning</span>
+                planning ou a déjà été invité</span>
             <span class="validMessage" *ngIf="userToInviteIsInvited">L'utilisateur à bien été invité !</span>
             <div class="form-group">
                 <label for="userEmailInvite">Email de votre ami</label>

@@ -12,6 +12,7 @@ import { MemberApiService } from 'src/app/common/member/member-api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserApiService } from 'src/app/common/user/user-api.service';
 import { User, Users } from 'src/app/common/user/user';
+import { Member } from 'src/app/common/member/member';
 
 @Component({
     selector: 'app-navbar-calendar',
@@ -26,20 +27,22 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
         idPlanningInvite: ['', Validators.required]
     });
 
+    // Invitations reçues
     invitations: Invitations = [];
 
-
+    // Attributs nécessaires pour créer une invitation
     invitationToCreate: Invitation;
     userToInvite: User;
     planningToInvite: Planning;
 
-
+    // Données personnelles de l'utilisateur
     planningsInvites: Plannings = [];
     planningsOfMember: Plannings = [];
     planningsOfGrantedMember: Plannings = [];
+
     private subscriptions: Subscription[] = [];
 
-
+    // messages d'erreur
     userToInviteNotFoundError: boolean = false;
     userToInviteAlreadyInPlanning: boolean = false;
     userToInviteIsInvited: boolean = false;
@@ -69,18 +72,28 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
         });
     }
 
-    openModal(content) {
+    openModal(content: any) {
         this.invitationsModal.open(content, { ariaLabelledBy: 'Invitations reçues' })
+    }
+
+    joinGroup(planning: Planning) {
+        const member: Member = { idUser: this.userSessionService.user.id, idPlanning: planning.id };
+        this.subscriptions.push(
+            this.memberApi.create(member)
+                .subscribe(() => this.getInvitations())
+        );
     }
 
     getInvitations() {
         this.subscriptions.push(
-            this.invitationApi.queryFromUserRecever(this.userSessionService.user.idUser)
+            this.invitationApi.queryFromUserRecever(this.userSessionService.user.id)
                 .subscribe(
                     invitations => {
                         this.invitations = invitations;
                         this.invitations.forEach(element => {
-                            this.getPlanningById(element.idPlanning, this.planningsInvites);
+                            this.planningApi.getById(element.idPlanning)
+                                .subscribe(
+                                    planning => this.planningsInvites.push(planning))
                         });
                     })
         )
@@ -88,42 +101,36 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
 
     getPlanningsOfMember() {
         this.subscriptions.push(
-            this.memberApi.queryFromUser(this.userSessionService.user.idUser)
+            this.memberApi.queryFromUser(this.userSessionService.user.id)
                 .subscribe(
                     members => {
                         members.forEach(element => {
-                            this.getPlanningById(element.idPlanning, this.planningsOfMember);
+                            this.planningApi.getById(element.idPlanning)
+                                .subscribe(
+                                    planning => this.planningsOfMember.push(planning))
                         });
-                        this.getPlanningBySuperUser(this.userSessionService.user.idUser, this.planningsOfMember);
+                        this.getPlanningBySuperUser(this.userSessionService.user.id, this.planningsOfMember);
                     }
                 )
         )
     }
 
-    getPlanningById(idPlanning: number, plannings: Plannings) {
+    getPlanningBySuperUser(id: number, plannings: Plannings) {
         this.subscriptions.push(
-            this.planningApi.getById(idPlanning)
-                .subscribe(
-                    planning => plannings.push(planning))
-        )
-    }
-
-    getPlanningBySuperUser(idUser: number, plannings: Plannings) {
-        this.subscriptions.push(
-            this.planningApi.getBySuperUserId(idUser)
+            this.planningApi.getBySuperUserId(id)
                 .subscribe(planning => plannings.push(planning))
         )
     }
 
     getPlanningsOfGrantedUser() {
         this.subscriptions.push(
-            this.memberApi.queryFromGrantedUser(this.userSessionService.user.idUser)
+            this.memberApi.queryFromGrantedUser(this.userSessionService.user.id)
                 .subscribe(members => {
                     members.forEach(element => {
                         this.planningApi.getById(element.idPlanning)
                             .subscribe(planning => this.planningsOfGrantedMember.push(planning))
                     });
-                    this.getPlanningBySuperUser(this.userSessionService.user.idUser, this.planningsOfGrantedMember);
+                    this.getPlanningBySuperUser(this.userSessionService.user.id, this.planningsOfGrantedMember);
                 })
         )
     }
@@ -168,8 +175,6 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
         this.verifyData(() => {
             this.createInvitation(this.invitationToCreate);
         });
-
-
     }
 
     resetValidMessage() {

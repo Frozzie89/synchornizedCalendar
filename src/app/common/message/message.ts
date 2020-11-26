@@ -1,8 +1,8 @@
 export interface Message {
-  idMessage?: number;
-  idChat?: number;
-  idUser?: number;
-  body: string;
+    idMessage?: number;
+    idChat?: number;
+    idPlanning?: number;
+    body: string;
 }
 
 export declare type Messages = Message[];

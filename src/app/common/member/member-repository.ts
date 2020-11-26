@@ -3,9 +3,9 @@ import { Member, Members } from './member';
 
 export interface MemberRepository {
     query(): Observable<Members>;
-    queryFromPlanning(idPlanning: number): Observable<Members>;
-    queryFromUser(idUser: number): Observable<Members>;
-    queryFromGrantedUser(idUser: number): Observable<Members>;
+    queryFromPlanning(id: number): Observable<Members>;
+    queryFromUser(id: number): Observable<Members>;
+    queryFromGrantedUser(id: number): Observable<Members>;
     create(member: Member): Observable<any>;
     get(idUser: number, idPlanning: number): Observable<Member>;
     delete(idUser: number, idPlanning: number): Observable<any>;
