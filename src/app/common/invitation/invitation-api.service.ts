@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Plannings } from '../planning/planning';
 import { Invitation, Invitations } from './invitation';
 import { InvitationRepository } from './invitation-repository';
 
@@ -13,14 +14,17 @@ export class InvitationApiService implements InvitationRepository {
     private static URL: string = environment.serverAddress + 'api/invitations';
 
     constructor(private http: HttpClient) { }
+    QueryPlanningsOfUserRecever(idUserRecever: number): Observable<Plannings> {
+        return this.http.get<Plannings>(InvitationApiService.URL + '/' + idUserRecever + "/*");
+    }
     query(): Observable<Invitations> {
         return this.http.get<Invitations>(InvitationApiService.URL);
     }
-    queryFromUserRecever(idUserRecever: number): Observable<Invitations> {
-        return this.http.get<Invitations>(InvitationApiService.URL + '/' + idUserRecever + "/*");
-    }
-    create(invitation: Invitation): Observable<any> {
-        return this.http.post<Invitation>(InvitationApiService.URL, invitation);
+    // queryFromUserRecever(idUserRecever: number): Observable<Invitations> {
+    //     return this.http.get<Invitations>(InvitationApiService.URL + '/' + idUserRecever + "/*");
+    // }
+    create(invitation: Invitation, userEmail: String): Observable<any> {
+        return this.http.post<Invitation>(invitation + ' / ' + userEmail, InvitationApiService.URL);
     }
     getById(id: number): Observable<Invitation> {
         return this.http.get<Invitation>(InvitationApiService.URL + '/' + id);

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Planning, Plannings } from '../planning/planning';
 import { Members, Member } from './member';
 import { MemberRepository } from './member-repository';
 
@@ -14,15 +15,20 @@ export class MemberApiService implements MemberRepository {
 
 
     constructor(private http: HttpClient) { }
+    QueryPlanningsFromMember(id: number, onlyGranted: boolean): Observable<Plannings> {
+        let intBool = (onlyGranted ? 1 : 0);
+        return this.http.get<Plannings>(MemberApiService.URL + '/' + id + '/' + intBool + '/u');
+    }
     query(): Observable<Members> {
         return this.http.get<Members>(MemberApiService.URL);
     }
     queryFromPlanning(id: number): Observable<Members> {
         return this.http.get<Members>(MemberApiService.URL + '/' + id + '/p');
     }
-    queryFromUser(id: number): Observable<Members> {
-        return this.http.get<Members>(MemberApiService.URL + '/' + id + '/u');
-    }
+    // queryFromUser(id: number): Observable<Members> {
+    //     return this.http.get<Members>(MemberApiService.URL + '/' + id + '/u');
+    // }
+
     queryFromGrantedUser(id: number): Observable<Members> {
         return this.http.get<Members>(MemberApiService.URL + '/' + id + '/gu');
     }

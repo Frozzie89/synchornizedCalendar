@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     submit() {
         let email = this.formLogin.controls['email'].value;
-        let password = SHA256(JSON.stringify(this.formLogin.controls['password'].value)).toString().substr(0, 50);
+        let password = this.formLogin.controls['password'].value;
 
         this.userNotFound = "";
         this.getAuthentication(email, password);

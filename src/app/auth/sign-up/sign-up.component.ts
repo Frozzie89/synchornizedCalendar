@@ -25,7 +25,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
 
     formSignUp: FormGroup = this.fb.group({
-        // note : les regex de morts de veulent pas fonctionner putain jpp
         email: ['', Validators.required],
         lastName: ['', Validators.required],
         firstName: ['', Validators.required],
@@ -52,7 +51,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
     submit() {
         if (this.passwordNoCapitalized == "" && this.passwordNoNumber == "" && this.passwordNoMatch == "" && this.userAlreadyExist == "") {
             this.userToCreate = this.formSignUp.value;
-            this.userToCreate.password = SHA256(JSON.stringify(this.userToCreate.password)).toString().substr(0, 50);
             this.createUser(this.userToCreate);
 
             this.getAuthentication(this.userToCreate.email, this.userToCreate.password);

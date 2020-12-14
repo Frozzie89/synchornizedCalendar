@@ -5,13 +5,10 @@ import { Subscription } from 'rxjs';
 import { Invitation, Invitations } from 'src/app/common/invitation/invitation';
 import { InvitationApiService } from 'src/app/common/invitation/invitation-api.service';
 import { UserSessionService } from 'src/app/common/user/user-session.service';
-import { CommonModule } from '@angular/common';
-import { PlanningApiService } from 'src/app/common/planning/planning-api.service';
 import { Planning, Plannings } from 'src/app/common/planning/planning';
 import { MemberApiService } from 'src/app/common/member/member-api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserApiService } from 'src/app/common/user/user-api.service';
-import { User, Users } from 'src/app/common/user/user';
+import { User } from 'src/app/common/user/user';
 import { Member } from 'src/app/common/member/member';
 
 @Component({
@@ -52,8 +49,6 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
         private invitationsModal: NgbModal,
         private router: Router,
         private userSessionService: UserSessionService,
-        private userApi: UserApiService,
-        private planningApi: PlanningApiService,
         private invitationApi: InvitationApiService,
         private memberApi: MemberApiService,
         private fb: FormBuilder
@@ -64,6 +59,7 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
         this.getInvitations();
         this.getPlanningsOfMember();
         this.getPlanningsOfGrantedUser();
+
     }
 
     ngOnDestroy(): void {
@@ -78,103 +74,50 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
 
     joinGroup(planning: Planning) {
         const member: Member = { idUser: this.userSessionService.user.id, idPlanning: planning.id };
+
         this.subscriptions.push(
             this.memberApi.create(member)
                 .subscribe(() => this.getInvitations())
         );
     }
 
+
     getInvitations() {
         this.subscriptions.push(
-            this.invitationApi.queryFromUserRecever(this.userSessionService.user.id)
-                .subscribe(
-                    invitations => {
-                        this.invitations = invitations;
-                        this.invitations.forEach(element => {
-                            this.planningApi.getById(element.idPlanning)
-                                .subscribe(
-                                    planning => this.planningsInvites.push(planning))
-                        });
-                    })
+            this.invitationApi.QueryPlanningsOfUserRecever(this.userSessionService.user.id)
+                .subscribe(plannings => this.planningsInvites = plannings)
         )
     }
+
 
     getPlanningsOfMember() {
         this.subscriptions.push(
-            this.memberApi.queryFromUser(this.userSessionService.user.id)
-                .subscribe(
-                    members => {
-                        members.forEach(element => {
-                            this.planningApi.getById(element.idPlanning)
-                                .subscribe(
-                                    planning => this.planningsOfMember.push(planning))
-                        });
-                        this.getPlanningBySuperUser(this.userSessionService.user.id, this.planningsOfMember);
-                    }
-                )
+            this.memberApi.QueryPlanningsFromMember(this.userSessionService.user.id, false)
+                .subscribe(plannings => this.planningsOfMember = plannings)
         )
-    }
 
-    getPlanningBySuperUser(id: number, plannings: Plannings) {
-        this.subscriptions.push(
-            this.planningApi.getBySuperUserId(id)
-                .subscribe(planning => plannings.push(planning))
-        )
     }
 
     getPlanningsOfGrantedUser() {
         this.subscriptions.push(
-            this.memberApi.queryFromGrantedUser(this.userSessionService.user.id)
-                .subscribe(members => {
-                    members.forEach(element => {
-                        this.planningApi.getById(element.idPlanning)
-                            .subscribe(planning => this.planningsOfGrantedMember.push(planning))
-                    });
-                    this.getPlanningBySuperUser(this.userSessionService.user.id, this.planningsOfGrantedMember);
-                })
+            this.memberApi.QueryPlanningsFromMember(this.userSessionService.user.id, true)
+                .subscribe(plannings => this.planningsOfMember = plannings)
+
         )
     }
 
-    verifyData(cb: any) {
+    sendInvitation() {
         this.userToInviteNotFoundError = false;
         const formUserToInvite = this.formInviteUser.controls['userEmailInvite'].value
         this.invitationToCreate = this.formInviteUser.value;
 
         this.subscriptions.push(
-            this.userApi.getByEmail(formUserToInvite)
+            this.invitationApi.create(this.invitationToCreate, formUserToInvite)
                 .subscribe(
-                    user => {
-                        this.userToInvite = user;
-                        this.invitationToCreate.idUserRecever = user.id;
-                        return cb();
-                    },
-                    () => {
-                        this.userToInviteNotFoundError = true;
-                    }
+                    () => null,
+                    () => this.userToInviteNotFoundError = true
                 )
         )
-
-    }
-
-
-    createInvitation(invitation: Invitation) {
-        this.userToInviteAlreadyInPlanning = false;
-
-        this.subscriptions.push(
-            this.invitationApi.create(invitation)
-                .subscribe(invitation => {
-                    if (invitation == null)
-                        this.userToInviteAlreadyInPlanning = true;
-                    else
-                        this.userToInviteIsInvited = true;
-                })
-        )
-    }
-
-    InviteUser() {
-        this.verifyData(() => {
-            this.createInvitation(this.invitationToCreate);
-        });
     }
 
     resetValidMessage() {
@@ -185,5 +128,47 @@ export class NavbarCalendarComponent implements OnInit, OnDestroy {
         localStorage.removeItem("jwt");
         this.router.navigate(['/home']);
     }
+    // verifyData(cb: any) {
+    //     this.userToInviteNotFoundError = false;
+    //     const formUserToInvite = this.formInviteUser.controls['userEmailInvite'].value
+    //     this.invitationToCreate = this.formInviteUser.value;
+
+    //     this.subscriptions.push(
+    //         this.userApi.getByEmail(formUserToInvite)
+    //             .subscribe(
+    //                 user => {
+    //                     this.userToInvite = user;
+    //                     this.invitationToCreate.idUserRecever = user.id;
+    //                     return cb();
+    //                 },
+    //                 () => {
+    //                     this.userToInviteNotFoundError = true;
+    //                 }
+    //             )
+    //     )
+
+    // }
+
+
+    // createInvitation(invitation: Invitation) {
+    //     this.userToInviteAlreadyInPlanning = false;
+
+    //     this.subscriptions.push(
+    //         this.invitationApi.create(invitation)
+    //             .subscribe(invitation => {
+    //                 if (invitation == null)
+    //                     this.userToInviteAlreadyInPlanning = true;
+    //                 else
+    //                     this.userToInviteIsInvited = true;
+    //             })
+    //     )
+    // }
+
+    // InviteUser() {
+    //     this.verifyData(() => {
+    //         this.createInvitation(this.invitationToCreate);
+    //     });
+    // }
+
 
 }

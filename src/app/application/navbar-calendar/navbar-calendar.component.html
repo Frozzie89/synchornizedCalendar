@@ -61,7 +61,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <form (ngSubmit)="InviteUser()" [formGroup]="formInviteUser">
+        <form (ngSubmit)="sendInvitation()" [formGroup]="formInviteUser">
             <span class="errorMessage" *ngIf="userToInviteNotFoundError">L'utilisateur n'a pas été trouvé</span>
             <span class="errorMessage" *ngIf="userToInviteAlreadyInPlanning">L'utilisateur est déjà présent dans ce
                 planning ou a déjà été invité</span>
