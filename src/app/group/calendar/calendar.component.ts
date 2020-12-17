@@ -27,6 +27,8 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EventTypeApiService } from 'src/app/common/eventType/event-type-api.service';
 import { EventTypes } from 'src/app/common/eventType/event-type';
+import { Eventts } from 'src/app/common/event/eventt';
+import { EventApiService } from 'src/app/common/event/event-api.service';
 
 const colors: any = {
     red: {
@@ -83,15 +85,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     refresh: Subject<any> = new Subject();
 
-    events: CalendarEvent[] = [
-        // {
-        //     start: startOfDay(new Date()),
-        //     end: addDays(new Date(), 1),
-        //     title: 'An event with no end date',
-        //     color: colors.yellow,
-        //     actions: this.actions,
-        // }
-    ];
+    events: CalendarEvent[] = [];
 
     activeDayIsOpen: boolean = true;
 
@@ -107,13 +101,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[] = [];
     eventTypes: EventTypes;
+    eventsBackEnd: Eventts;
 
 
     constructor(
         private modal: NgbModal,
         private newEventModal: NgbModal,
         private fb: FormBuilder,
-        private eventTypeApi: EventTypeApiService
+        private eventTypeApi: EventTypeApiService,
+        private eventApi: EventApiService
     ) { }
 
     ngOnInit(): void {
@@ -121,6 +117,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
             this.eventTypeApi.query()
                 .subscribe(eventTypes => this.eventTypes = eventTypes)
         );
+
+        this.subscriptions.push(
+            this.eventApi.queryFromPlanning(1)
+                .subscribe(events => this.eventsBackEnd = events)
+        )
     }
 
     ngOnDestroy(): void {
@@ -143,6 +144,23 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 actions: this.actions
             }
         );
+
+        let createdEvent: Eventts = [
+            {
+                idEventCategory: this.formAddEvent.value["eventType"].split("-")[0],
+                idPlanning: 1,
+                lable: this.formAddEvent.value["title"],
+                start: start + ":00",
+                end: end + ":00"
+            }
+        ]
+
+        console.log(createdEvent[0]);
+
+        this.subscriptions.push(
+            this.eventApi.create(createdEvent[0])
+                .subscribe()
+        )
     }
 
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
