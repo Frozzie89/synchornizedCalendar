@@ -20,9 +20,6 @@ export class InvitationApiService implements InvitationRepository {
     query(): Observable<Invitations> {
         return this.http.get<Invitations>(InvitationApiService.URL);
     }
-    // queryFromUserRecever(idUserRecever: number): Observable<Invitations> {
-    //     return this.http.get<Invitations>(InvitationApiService.URL + '/' + idUserRecever + "/*");
-    // }
     create(invitation: Invitation, userEmail: String): Observable<any> {
         return this.http.post<Invitation>(invitation + ' / ' + userEmail, InvitationApiService.URL);
     }

@@ -25,10 +25,6 @@ export class MemberApiService implements MemberRepository {
     queryFromPlanning(id: number): Observable<Members> {
         return this.http.get<Members>(MemberApiService.URL + '/' + id + '/p');
     }
-    // queryFromUser(id: number): Observable<Members> {
-    //     return this.http.get<Members>(MemberApiService.URL + '/' + id + '/u');
-    // }
-
     queryFromGrantedUser(id: number): Observable<Members> {
         return this.http.get<Members>(MemberApiService.URL + '/' + id + '/gu');
     }
@@ -37,11 +33,5 @@ export class MemberApiService implements MemberRepository {
     }
     get(idUser: number, idPlanning: number): Observable<Member> {
         return this.http.get<Member>(MemberApiService.URL + '/' + idUser + '/' + idPlanning);
-    }
-    delete(idUser: number, idPlanning: number): Observable<any> {
-        return this.http.delete<Member>(MemberApiService.URL + '/' + idUser + '/' + idPlanning);
-    }
-    update(idUser: number, idPlanning: number, member: Member): Observable<any> {
-        return this.http.put<Member>(MemberApiService.URL + '/' + idUser + '/' + idPlanning, member);
     }
 }

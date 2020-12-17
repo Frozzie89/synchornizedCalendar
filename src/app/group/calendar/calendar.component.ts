@@ -3,6 +3,8 @@ import {
     ChangeDetectionStrategy,
     ViewChild,
     TemplateRef,
+    OnInit,
+    OnDestroy,
 } from '@angular/core';
 import {
     startOfDay,
@@ -14,7 +16,7 @@ import {
     isSameMonth,
     addHours,
 } from 'date-fns';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
     CalendarEvent,
@@ -22,6 +24,9 @@ import {
     CalendarEventTimesChangedEvent,
     CalendarView,
 } from 'angular-calendar';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EventTypeApiService } from 'src/app/common/eventType/event-type-api.service';
+import { EventTypes } from 'src/app/common/eventType/event-type';
 
 const colors: any = {
     red: {
@@ -44,7 +49,7 @@ const colors: any = {
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit, OnDestroy {
     @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
     view: CalendarView = CalendarView.Month;
@@ -79,49 +84,66 @@ export class CalendarComponent {
     refresh: Subject<any> = new Subject();
 
     events: CalendarEvent[] = [
-        {
-            start: subDays(startOfDay(new Date()), 1),
-            end: addDays(new Date(), 1),
-            title: 'A 3 day event',
-            color: colors.red,
-            actions: this.actions,
-            allDay: true,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true,
-            },
-            draggable: true,
-        },
-        {
-            start: startOfDay(new Date()),
-            title: 'An event with no end date',
-            color: colors.yellow,
-            actions: this.actions,
-        },
-        {
-            start: subDays(endOfMonth(new Date()), 3),
-            end: addDays(endOfMonth(new Date()), 3),
-            title: 'A long event that spans 2 months',
-            color: colors.blue,
-            allDay: true,
-        },
-        {
-            start: addHours(startOfDay(new Date()), 2),
-            end: addHours(new Date(), 2),
-            title: 'A draggable and resizable event',
-            color: colors.yellow,
-            actions: this.actions,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true,
-            },
-            draggable: true,
-        },
+        // {
+        //     start: startOfDay(new Date()),
+        //     end: addDays(new Date(), 1),
+        //     title: 'An event with no end date',
+        //     color: colors.yellow,
+        //     actions: this.actions,
+        // }
     ];
 
     activeDayIsOpen: boolean = true;
 
-    constructor(private modal: NgbModal) { }
+    formAddEvent: FormGroup = this.fb.group({
+        dateStart: ['', Validators.required],
+        dateEnd: ['', Validators.required],
+        timeStart: [''],
+        timeEnd: [''],
+        title: ['', Validators.required],
+        actions: this.actions,
+        eventType: ['', Validators.required]
+    });
+
+    private subscriptions: Subscription[] = [];
+    eventTypes: EventTypes;
+
+
+    constructor(
+        private modal: NgbModal,
+        private newEventModal: NgbModal,
+        private fb: FormBuilder,
+        private eventTypeApi: EventTypeApiService
+    ) { }
+
+    ngOnInit(): void {
+        this.subscriptions.push(
+            this.eventTypeApi.query()
+                .subscribe(eventTypes => this.eventTypes = eventTypes)
+        );
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(element => {
+            element.unsubscribe()
+        });
+    }
+
+    writeEvent() {
+        const start = this.formAddEvent.value["dateStart"] + " " + this.formAddEvent.value["timeStart"];
+        const end = this.formAddEvent.value["dateEnd"] + " " + this.formAddEvent.value["timeEnd"];
+        const color = this.formAddEvent.value["eventType"].split("-")[1];
+
+        this.events.push(
+            {
+                start: new Date(start),
+                end: new Date(end),
+                title: this.formAddEvent.value["title"],
+                color: color,
+                actions: this.actions
+            }
+        );
+    }
 
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
         if (isSameMonth(date, this.viewDate)) {
@@ -187,5 +209,9 @@ export class CalendarComponent {
 
     closeOpenMonthViewDay() {
         this.activeDayIsOpen = false;
+    }
+
+    openModal(content: any) {
+        this.newEventModal.open(content, { ariaLabelledBy: 'Ajouter un nouvel évenemment' })
     }
 }

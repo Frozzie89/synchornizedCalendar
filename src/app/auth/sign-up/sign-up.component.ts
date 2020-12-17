@@ -52,11 +52,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
         if (this.passwordNoCapitalized == "" && this.passwordNoNumber == "" && this.passwordNoMatch == "" && this.userAlreadyExist == "") {
             this.userToCreate = this.formSignUp.value;
             this.createUser(this.userToCreate);
-
-            this.getAuthentication(this.userToCreate.email, this.userToCreate.password);
-
-            this.router.navigate(['/group']);
-
         }
 
     }
@@ -106,7 +101,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
     createUser(user: User) {
         this.subscriptions.push(
             this.userApi.create(user)
-                .subscribe(user => this.users.push(user))
+                .subscribe(
+                    user => {
+                        this.users.push(user);
+                        this.router.navigate(['/group']);
+                    }
+                )
         );
     }
 

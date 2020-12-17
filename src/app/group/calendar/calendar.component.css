@@ -8,3 +8,11 @@ pre {
   padding: 15px;
 }
 
+.dateInput{
+    width: 47%;
+    display: inline-block;
+}
+
+.dateInput:nth-child(2n){
+    float: right;
+}
