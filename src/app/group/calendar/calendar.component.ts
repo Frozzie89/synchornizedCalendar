@@ -126,24 +126,40 @@ export class CalendarComponent implements OnInit, OnDestroy {
                                 let colorType;
 
                                 this.eventTypes.forEach(event_type => {
-                                    if (event_type.id == event_backend.id)
+                                    if (event_type.id == event_backend.idEventCategory)
                                         colorType = event_type.color;
                                 });
+                                // console.log(event_backend.start);
 
-                                this.events.push(
+
+                                this.events = [
+                                    ...this.events,
                                     {
-                                        start: new Date(event_backend.start),
-                                        end: new Date(event_backend.end),
+                                        start: this.sqlDateToJsDate(event_backend.start),
+                                        end: this.sqlDateToJsDate(event_backend.end),
                                         title: event_backend.label,
                                         color: colorType,
                                         actions: this.actions
-                                    }
-                                );
+                                    },
+                                ];
+
+
                             });
+                            console.log(this.events);
+
                         })
                 })
         );
     }
+
+    sqlDateToJsDate(date: string) {
+        let fullDate = date.split(" ");
+        let datee = fullDate[0].split("-");
+        let time = fullDate[1].split(":");
+
+        return new Date(parseInt("20" + datee[2]), parseInt(datee[1]) - 1, parseInt(datee[0]), parseInt(time[0]), parseInt(time[1]), parseInt(time[2]));
+    }
+
 
     ngOnDestroy(): void {
         this.subscriptions.forEach(element => {
@@ -184,6 +200,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
             this.eventApi.create(createdEvent[0])
                 .subscribe()
         )
+
+        this.events.forEach(element => {
+            console.log(element);
+
+        });
     }
 
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
