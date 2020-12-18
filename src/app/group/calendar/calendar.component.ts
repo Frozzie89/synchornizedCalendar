@@ -129,8 +129,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
                                     if (event_type.id == event_backend.idEventCategory)
                                         colorType = event_type.color;
                                 });
-                                // console.log(event_backend.start);
-
 
                                 this.events = [
                                     ...this.events,
