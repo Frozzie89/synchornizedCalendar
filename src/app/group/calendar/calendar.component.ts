@@ -115,13 +115,34 @@ export class CalendarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.subscriptions.push(
             this.eventTypeApi.query()
-                .subscribe(eventTypes => this.eventTypes = eventTypes)
-        );
+                .subscribe(eventTypes => {
+                    this.eventTypes = eventTypes;
 
-        this.subscriptions.push(
-            this.eventApi.queryFromPlanning(1)
-                .subscribe(events => this.eventsBackEnd = events)
-        )
+                    this.eventApi.queryFromPlanning(1)
+                        .subscribe(events => {
+                            this.eventsBackEnd = events;
+
+                            this.eventsBackEnd.forEach(event_backend => {
+                                let colorType;
+
+                                this.eventTypes.forEach(event_type => {
+                                    if (event_type.id == event_backend.id)
+                                        colorType = event_type.color;
+                                });
+
+                                this.events.push(
+                                    {
+                                        start: new Date(event_backend.start),
+                                        end: new Date(event_backend.end),
+                                        title: event_backend.label,
+                                        color: colorType,
+                                        actions: this.actions
+                                    }
+                                );
+                            });
+                        })
+                })
+        );
     }
 
     ngOnDestroy(): void {
@@ -131,9 +152,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     writeEvent() {
-        const start = this.formAddEvent.value["dateStart"] + " " + this.formAddEvent.value["timeStart"];
-        const end = this.formAddEvent.value["dateEnd"] + " " + this.formAddEvent.value["timeEnd"];
+        const noTimeStart = this.formAddEvent.value["timeStart"] == "";
+        const noTimeEnd = this.formAddEvent.value["timeEnd"] == "";
+
+        const start = this.formAddEvent.value["dateStart"] + (!noTimeStart ? " " + this.formAddEvent.value["timeStart"] : "");
+        const end = this.formAddEvent.value["dateEnd"] + (!noTimeEnd ? " " + this.formAddEvent.value["timeEnd"] : "");
         const color = this.formAddEvent.value["eventType"].split("-")[1];
+
 
         this.events.push(
             {
@@ -147,15 +172,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
         let createdEvent: Eventts = [
             {
-                idEventCategory: this.formAddEvent.value["eventType"].split("-")[0],
+                idEventCategory: parseInt(this.formAddEvent.value["eventType"].split("-")[0]),
                 idPlanning: 1,
-                lable: this.formAddEvent.value["title"],
-                start: start + ":00",
-                end: end + ":00"
+                label: this.formAddEvent.value["title"],
+                start: start + (!noTimeStart ? ":00" : " 00:00:00"),
+                end: end + (!noTimeEnd ? ":00" : " 00:00:00")
             }
         ]
-
-        console.log(createdEvent[0]);
 
         this.subscriptions.push(
             this.eventApi.create(createdEvent[0])
