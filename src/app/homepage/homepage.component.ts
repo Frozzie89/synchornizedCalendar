@@ -12,11 +12,8 @@ export class HomepageComponent implements OnInit {
     constructor(private userSession: UserSessionService, private router: Router) { }
     ngOnInit() {
         this.userSession.setUserToken();
-        if (this.userSession.user != null) {
-            console.log("oui");
+        if (this.userSession.user != null)
             this.router.navigate(["/group"]);
-        }
-        console.log("non");
 
     }
 
